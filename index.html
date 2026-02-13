@@ -490,6 +490,31 @@
             const name = document.getElementById('player-name').value.trim();
             if (!name) return alert("Vui lòng nhập tên!");
             currentPlayer = name;
+
+            // --- BẮT ĐẦU ĐOẠN XỬ LÝ FLAG (TRICKS) ---
+            
+            // 1. Chuyển tên về chữ thường và xóa sạch dấu tiếng Việt
+            let normalizedName = name
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "") // Xóa dấu
+                .replace(/đ/g, "d").replace(/Đ/g, "D") // Đổi chữ đ
+                .toLowerCase();
+            
+            // 2. Tách tên thành các chữ rời (VD: "thanh hải" -> ["thanh", "hai"])
+            let nameWords = normalizedName.split(/\s+/);
+
+            // 3. Cài đặt điều kiện
+            if (nameWords.includes("hai")) {
+                tempTicket.amount = "10k";
+                tempTicket.wish = "Lộc lá tượng trưng thôi nhé!"; // Bạn có thể đổi lời chúc ở đây
+            } 
+            else if (nameWords.includes("nhu")) {
+                tempTicket.amount = "200k";
+                tempTicket.wish = "Đặc quyền của Nóc Nhà!"; // Bạn có thể đổi lời chúc ở đây
+            }
+
+            // --- KẾT THÚC ĐOẠN XỬ LÝ FLAG ---
+
             document.getElementById('name-input-modal').style.display = 'none';
             openScratchBoard();
         }
